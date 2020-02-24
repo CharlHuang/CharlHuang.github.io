@@ -1,0 +1,755 @@
+{% raw %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <title>Rooms</title>
+        <link rel="stylesheet" type="text/css" href="stylesheet/myStyle.css">
+        <style type="text/css">
+            #stage{
+                width: 1000px;
+				height: 600px;
+                left: 50%;
+                top: 50%;
+                margin-left: -505px;
+                margin-top: -340px;
+                padding: 5px;
+                background-color: rgba(75, 72, 56, 0.651);
+                position: fixed;
+            }
+			#room{
+				width: 1000px;
+				height: 600px;
+				background: url(img/room-normal.png);
+				margin: auto;
+                position: relative;
+                overflow: hidden;
+            }
+            #infoFrame{
+                width: 1000px;
+				height: 100px;
+				margin: auto;
+                bottom: 3px;
+				position: absolute;
+
+                text-align: center;                     /*父级文本属性，继承给子级*/
+                font-size: 25px;
+                overflow: visible;
+                text-shadow: 2px 2px 2px rgba(78, 78, 78, 0.61);
+            }
+            #info-deathCount{
+                width: 35px;
+				height: 100px;
+                margin: auto;
+                left: 80px;
+                position: absolute;
+            }
+            #info-deathCount:before{
+                content: url(img/monster-Info.png);
+            }
+            #info-keyHolding{
+                width: 35px;
+                height: 100px;
+                margin: auto;
+                left: 160px;
+                position: absolute;
+            }
+            #info-keyHolding:before{
+                content: url(img/key-Info.png);
+            }
+            #info-keyNeeded{
+                width: 35px;
+                height: 100px;
+                margin: auto;
+                left: 240px;
+                position: absolute;
+            }
+            #info-keyNeeded:before{
+                content: url(img/keyHole-Info.png);
+            }
+            #info-gameLevel{
+                width: 50px;
+                height: 100px;
+                margin: auto;
+                right: 80px;
+                position: absolute;
+            }
+            #info-gameLevel:before{
+                content: "关卡";
+            }
+            #info-map{
+                width: 80px;
+                height: 100px;
+                margin: auto;
+                right: 200px;
+                bottom: 0px;
+                position: absolute;
+            }
+            #info-map:before{
+                content: url(img/map-Info.png);
+            }
+            #map{
+                background-image: url(img/map.png);
+                width: 1010px;
+                height: 610px;
+                left: 50%;
+                top: 50%;
+                margin-left: -505px;
+                margin-top: -340px;
+                visibility: hidden;
+                position: fixed;
+            }
+            #map-stage{
+                width: 675px;
+                height: 370px;
+                left: 168px;
+                top: 120px;
+                /*background-color: rgba(47, 40, 151, 0.5);*/
+                position: absolute;
+            }
+            #map-block-normal{
+                width: 130px;
+                height: 60px;
+                margin-left: 5px;
+                float: left;
+                background-color: darkgrey;
+            }
+            #map-block-special{
+                width: 130px;
+                height: 60px;
+                margin-left: 5px;
+                float: left;
+                background-color: rgb(179, 36, 0);
+            }
+            #map-block-monster{
+                width: 36px;
+                height: 36px;
+                background-image: url(img/monster-Info.png);
+                margin-left: 48px;
+                margin-top: 9px;
+                position: absolute;
+            }
+            #map-block-arrange{
+                width: auto;
+                height: 60px;
+                margin-top: 4px;
+                margin-bottom: 4px;
+            }
+			#monster{
+				width: 50px;
+				height: 50px;
+				background-image: url(img/monster-down.png);
+				position: absolute;
+                overflow: hidden;
+                left: 470px;
+				top: 300px;
+			}
+            #roomWall{
+				width: 1000px;
+				height: 600px;
+				background-image: url(img/roomWall-normal.png);
+				margin: auto;
+				position: absolute;
+			}
+            #key{
+                width: 45px;
+                height: 45px;
+                left: 470px;
+                top: 300px;
+                margin: auto;
+                visibility: hidden;
+                position: absolute;
+                background-image: url(img/key.png);
+            }
+            #key-picked{
+                width: 45px;
+                height: 45px;
+                margin: auto;
+                position: absolute;
+                background-image: url(img/key-picked.png);
+            }
+            #keyHole{
+                width: 50px;
+                height: 50px;
+                left: 190px;
+                top: 150px;
+                margin: auto;
+                visibility: visible;
+                position: absolute;
+                background-image: url(img/keyHole.png);
+            }
+        </style>
+    </head>
+    <body style="background-color:rgb(22, 22, 22)">
+		<div id="stage">
+            <div id="room">
+                <div id="monster"></div>
+                <div id="roomWall"></div>
+                <div id="keyHole"></div>
+                <div id="key"></div>
+                <div id="infoFrame">
+                    <div id="info-deathCount"></div>
+                    <div id="info-keyHolding"></div>
+                    <div id="info-keyNeeded"></div>
+                    <div id="info-map" onclick="clickingMap()"></div>
+                    <div id="info-gameLevel"></div>
+                </div><!--id="info"-->
+            </div><!--id="room"-->
+        </div><!--id="stage"-->
+        <div id="map" onclick="closingMap(this)">
+        </div>
+    </body>
+    <script>
+    var Player = function(){                                         //人物对象创建
+    this.monster = null;            //人物div对象
+    this.roomNow = null;            //当前房间的房号
+    this.map = null;                //地图
+    this.mapInfo = null;
+}
+var Room = function() {
+    this.block = null;              //获取页面中id为monster方块对象
+    this.wall = null;               //房间下方墙面颜色（因要做到墙体遮挡效果，将下方的墙分离为另一个div）
+    this.key = null;                //界面中在房间地面上的钥匙
+    this.keyPicked = null;          //界面中被拾取的钥匙
+    this.keyHole = null;            //起点房间墙上的钥匙孔
+}
+var GameRelative = function() {
+    this.roomSAmount = null;        //特殊房间的数量
+    this.roomAmount = null;         //房间总数
+    this.pickedRoom = null;         //存储特殊房间号的数组
+    this.normalRoom = null;         //存储普通房间号的数组
+    this.noKeyRoom = null;          //储存拾取过钥匙的特殊房间号的数组
+    this.roomSCount = null;         
+
+    this.deathCount = null;         //倒计时
+    this.keyHolding = null;         //玩家身上的钥匙数
+    this.keyNeeded = null;          //仍需要的钥匙数量
+    this.gameLevel = null;          //关卡
+    this.Timer = null;
+}
+function searchOrder(arr , target)
+{
+    for(let i = 0 ; i < arr.length ; i++)
+    {
+        if(target == arr[i])
+            return i;
+    }
+}
+function controlMove(player , room) {                    
+    var left = false;       //各类参数初始化
+    var right = false;
+    var up = false;
+    var down = false;
+    var X = 0;
+    var Y = 0;
+    
+    document.onkeydown = function(ev)                 //键盘状态初始化
+    {
+        var ev = ev || event;
+        var key = ev.keyCode;
+        switch(key) {
+                case 65:
+                    left = true;
+                    break;
+                case 87:
+                    up = true;
+                    break;
+                case 68:
+                    right = true;
+                    break;
+                case 83:
+                    down = true;
+                    break;
+            }
+    }
+    setInterval(function() {                 //计时器实现行走（实现无卡顿现象）
+        X = player.monster.offsetLeft;
+        Y = player.monster.offsetTop;
+        if(left)
+        {
+            document.getElementById("monster").style.background = "url(img/monster-left.png)";
+            if(moveLimitbyWalls(X,Y,'left'))
+                player.monster.style.left = X-10 + "px";
+        }
+        if(right)
+        {
+            document.getElementById("monster").style.background = "url(img/monster-right.png)";
+            if(moveLimitbyWalls(X,Y,'right'))
+                player.monster.style.left = X+10 + "px";
+        }
+        if(up)
+        {
+            document.getElementById("monster").style.background = "url(img/monster-up.png)";
+            if(moveLimitbyWalls(X,Y,'up'))
+                player.monster.style.top = Y-10 + "px";
+        }
+        if(down)
+        {
+            document.getElementById("monster").style.background = "url(img/monster-down.png)";
+            if(moveLimitbyWalls(X,Y,'down'))
+                player.monster.style.top = Y+10 + "px";
+        }
+        enterRoom(player.monster.offsetLeft , player.monster.offsetTop , player , room);       //调用“进入房间”判定
+        //console.log(X, Y);
+    }, 30)
+    document.onkeyup = function(ev) {            //状态返回
+        var ev = ev || event;
+        var key = ev.keyCode;
+        switch(key)
+        {
+            case 65:
+                left = false;
+                break;
+            case 87:
+                up = false;
+                break;
+            case 68:
+                right = false;
+                break;
+            case 83:
+                down = false;
+                break;
+        }
+    }
+}
+function clickingMap() {
+    document.getElementById("map").style.visibility = "visible";
+}
+function closingMap(obj) {
+    obj.style.visibility = "hidden";
+}
+function roomHasKey(Num) {                  //判断房间是否是 有钥匙特殊房（不包括起点）
+    for(let i = 1; i < data.pickedRoom.length; i++)
+        if(data.pickedRoom[i] == Num)
+            return true;
+        return false;
+}
+function roomHasNoKey(Num) {                  //判断房间是否是 无钥匙特殊房
+    for(let i = 0; i < data.noKeyRoom.length; i++)
+        if(data.noKeyRoom[i] == Num)
+            return true;
+        return false;
+}
+function deathCountRun(data , judge){
+    if(judge == 1)
+        data.Timer = setInterval(
+            function(){
+                data.deathCount--;
+                reflashTimer(data);
+                gameOver(data);
+            }, 1000)
+    else{
+        clearInterval(data.Timer);
+    }
+}
+var preloading = function(arr) {                                //预加载房间图片---未完成
+
+}
+var createRoom = function(player, data) {
+    function initializeOject(player , data) {
+        room.block = document.getElementById("room");
+        room.wall = document.getElementById("roomWall");
+        room.keyHole = document.getElementById("keyHole");
+        room.key = document.getElementById("key");
+        player.map = document.getElementById("map");
+        player.mapInfo = document.getElementById("info-map");
+    }
+    function roomPick(r_Amount, p_Amount)         //随机抽取房间号码作为特殊房间
+    {
+        for(let i=0 ; i < r_Amount*r_Amount ; i++)
+        {
+            data.normalRoom[i] = i+1;
+        }
+        for(let i=0 ; i < p_Amount ; i++)
+        {
+            let temp_roomNumber = Math.floor(Math.random() * data.normalRoom.length );
+            data.pickedRoom.push(data.normalRoom[temp_roomNumber]);
+            data.normalRoom.splice(temp_roomNumber , 1);
+        }
+    }
+    switch(data.gameLevel)           //根据游戏关卡设置难度
+    {
+        case 1: {
+            data.roomSAmount = 2;
+            data.roomAmount = 2;
+            break;
+        }
+        case 2: {
+            data.roomSAmount = 2;
+            data.roomAmount = 3;
+            break;
+        }
+        case 3: {
+            data.roomSAmount = 3;
+            data.roomAmount = 3;
+            break;
+        }
+        case 4: {
+            data.roomSAmount = 4;
+            data.roomAmount = 3;
+            break;
+        }
+        case 5: {
+            data.roomSAmount = 4;
+            data.roomAmount = 4;
+            break;
+        }
+        case 6: {
+            data.roomSAmount = 4;
+            data.roomAmount = 5;
+            break;
+        }
+        default :{
+            data.roomSAmount = 4;
+            data.roomAmount = 5;
+            break;
+        }
+    }
+    data.keyNeeded = data.roomSAmount - 1;
+    data.keyHolding = 0;
+
+    data.normalRoom = new Array(data.roomAmount * data.roomAmount);
+    data.pickedRoom = new Array();
+    data.noKeyRoom = new Array();
+
+    roomPick(data.roomAmount, data.roomSAmount);                      //调用“挑选特殊房间”函数，选出房号
+    initializeOject(player , data)
+    player.roomNow = data.pickedRoom[0];                      //以第一个特殊房间为起点
+    console.log(data.pickedRoom[0] , data.pickedRoom[1] , data.pickedRoom[2] , data.pickedRoom[4]);
+}
+var createMap = function(player , data) {
+    var mapStage = document.createElement("div");
+    mapStage.id = "map-stage";
+    player.map.appendChild(mapStage);
+    
+    let roomBlock = new Array(data.roomAmount);
+    let mapArrange = new Array(data.roomAmount);
+    for(let i = 0; i < data.roomAmount ; i++)
+    {
+        roomBlock[i] = new Array(data.roomAmount);
+        mapArrange[i] = document.createElement("div");
+        mapArrange[i].id = "map-block-arrange";
+        mapStage.appendChild(mapArrange[i]);
+        for(let j = 0 ; j < data.roomAmount ; j++)
+        {
+            if(roomHasKey(i*data.roomAmount + j + 1)) {
+                roomBlock[i][j] = document.createElement("div");
+                roomBlock[i][j].id = "map-block-special";
+                mapArrange[i].appendChild(roomBlock[i][j]);
+            }
+            else {
+                roomBlock[i][j] = document.createElement("div");
+                roomBlock[i][j].id = "map-block-normal";
+                mapArrange[i].appendChild(roomBlock[i][j]);
+                if((i*data.roomAmount + j + 1) == data.pickedRoom[0]){
+                    let blockMonster = document.createElement("div");
+                    blockMonster.id = "map-block-monster";
+                    roomBlock[i][j].appendChild(blockMonster);
+                }
+            }
+        }
+    }
+}
+var deleteMap = function(){
+    let map = document.getElementById("map-stage");
+    if(map)
+    map.remove();
+}
+var moveLimitbyWalls = function (X,Y,direction)                 //房间墙壁行走限制
+{
+    switch(direction)
+    {
+        case 'left':                                    //“左”的限制
+        {
+            if (X <= 400 && (Y < 150 || Y > 480))
+                return false;
+            else if (X <= 350 && (Y < 200 || Y > 430))
+                return false;
+            else if (X <= 50 && (Y < 250 || Y > 380))
+                return false;
+            else return true;
+        }
+        case 'right':                                    //“右”的限制
+        {
+            if (X >= 550 && (Y < 150 || Y > 480))
+                return false;
+            else if (X >= 600 && (Y < 200 || Y > 430))
+                return false;
+            else if (X >= 900 && (Y < 250 || Y > 380))
+                return false;
+            else return true;
+        }
+        case 'up':                                    //“上”的限制
+        {
+            if (Y <= 150 && (X < 400 || X > 550))
+                return false;
+            else if (Y <= 200 && (X < 345 || X > 605))
+                return false;
+            else if (Y <= 250 && (X < 45 || X > 900))
+                return false;
+            else return true;
+        }
+        case 'down':                                    //“下”的限制
+        {
+            if (Y >= 475 && (X < 400 || X > 550))
+                return false;
+            else if (Y >= 425 && (X < 345 || X > 605))
+                return false;
+            else if (Y >= 375 && (X < 45 || X > 900))
+                return false;
+            else return true;
+        }
+    }
+
+}
+var enterRoom = function(X , Y , player , room) {               //进入房间的位置转换 + 坐标改变
+    let i;
+    let j;
+    //deathCountRun(data , 1);
+    if(X <= -10)                                //进入左室
+    {
+        if(player.roomNow % data.roomAmount != 1)
+        {
+            player.roomNow = player.roomNow - 1;
+            room.roomNum = player.roomNow;
+            player.monster.style.left = 950 + "px";
+            reflashRoom(player , data , room);
+            i = Math.ceil(player.roomNow / data.roomAmount);
+            j = player.roomNow - (i-1)*data.roomAmount;
+            return console.log("进入左室, 当前坐标：("+ i , j + ")");
+        }
+        else
+        {
+            player.monster.style.left = 0 + "px";
+            return console.log("你已到达世界边缘");
+        }
+    }
+    if(X >= 970)                                //进入右室
+    {
+        if(player.roomNow % data.roomAmount != 0)
+        {
+            player.roomNow = player.roomNow + 1;
+            room.roomNum = player.roomNow;
+            player.monster.style.left = 0 + "px";
+            reflashRoom(player , data , room);
+            i = Math.ceil(player.roomNow / data.roomAmount);
+            j = player.roomNow - (i-1)*data.roomAmount;
+            return console.log("进入右室, 当前坐标：("+ i , j + ")");
+        }
+        else
+        {
+            player.monster.style.left = 950 + "px";
+            return console.log("你已到达世界边缘");
+        }
+    }
+    if(Y <= -10)                                //进入上室
+    {
+        if(player.roomNow - data.roomAmount > 0)
+        {
+            player.roomNow = player.roomNow - data.roomAmount;
+            room.roomNum = player.roomNow;
+            player.monster.style.top = 550 + "px";
+            reflashRoom(player , data , room);
+            i = Math.ceil(player.roomNow / data.roomAmount);
+            j = player.roomNow - (i-1)*data.roomAmount;
+            return console.log("进入上室, 当前坐标：("+ i , j + ")");            
+        }
+        else
+        {
+            player.monster.style.top = 0 + "px";
+            return console.log("你已到达世界边缘");
+        }
+    }
+    if(Y >= 570)                                //进入下室
+    {
+        if(player.roomNow + data.roomAmount <= data.roomAmount *data.roomAmount)
+        {
+            player.roomNow = player.roomNow + data.roomAmount;
+            room.roomNum = player.roomNow;
+            player.monster.style.top = 0 + "px";
+            reflashRoom(player , data , room);
+            i = Math.ceil(player.roomNow / data.roomAmount);
+            j = player.roomNow - (i-1)*data.roomAmount;
+            return console.log("进入下室, 当前坐标：("+ i , j + ")");
+        }
+        else
+        {
+            player.monster.style.top = 550 + "px";
+            return console.log("你已到达世界边缘");
+        }
+    }
+}
+var reflashRoom = function(player , data , room) {              //更新当前房间信息
+    function createKeyHole() {
+        room.keyHole.style.visibility = "visible";
+    }
+    function hideKeyHole() {
+        room.keyHole.style.visibility = "hidden";
+    }
+    function createKey() {
+        room.key.style.visibility = "visible";
+    }
+    function hideKey() {
+        room.key.style.visibility = "hidden";
+    }
+    function roomPreferenceChange(colorNumber){
+        switch(colorNumber % 3)
+        {
+            case 0:{
+                room.block.style.background = "url(img/room-red.png)";
+                room.wall.style.background = "url(img/roomWall-red.png)";
+                break;
+            }
+            case 1:{
+                room.block.style.background = "url(img/room-blue.png)";
+                room.wall.style.background = "url(img/roomWall-blue.png)";
+                break;
+            }
+            case 2:{
+                room.block.style.background = "url(img/room-green.png)";
+                room.wall.style.background = "url(img/roomWall-green.png)";
+                break;
+            }
+        }
+    }
+    if(player.roomNow == data.pickedRoom[0])
+    {
+        createKeyHole();
+        unlock();
+    }
+    else hideKeyHole();
+
+    if(roomHasKey(player.roomNow))
+    {
+        roomPreferenceChange(data.roomSCount);
+        createKey();
+        pickingKey(player , room , data);
+        data.roomSCount ++;
+    }
+    else if(roomHasNoKey(player.roomNow))
+    {
+        roomPreferenceChange(searchOrder(data.noKeyRoom , player.roomNow));
+    }
+    else 
+    {
+        room.block.style.background = "url(img/room-normal.png)";
+        room.wall.style.background = "url(img/roomWall-normal.png)";
+        hideKey();
+    }
+    reflashInfo(data);
+}
+var reflashInfo = function(data)                                //玩家更新信息
+{   
+    document.getElementById("info-keyHolding").innerHTML = data.keyHolding;
+    document.getElementById("info-keyNeeded").innerHTML = data.keyNeeded;
+    //console.log(data.deathCount);
+}
+var reflashTimer = function(){
+    document.getElementById("info-deathCount").innerHTML = data.deathCount + "s";
+}
+var roomExchange = function(player , room , data) {             //根据游戏规则，将拾取钥匙的房间空间位置与起点对调
+    roomDie(player.roomNow);
+    player.roomNow = data.noKeyRoom[data.noKeyRoom.length - 1];
+    reflashRoom(player , data , room);
+    console.log(data.noKeyRoom[0] , data.noKeyRoom[1] , data.noKeyRoom[2]);
+    console.log(data.pickedRoom[0] , data.pickedRoom[1] , data.pickedRoom[2])
+    function roomDie(roomNow)           //规则核心算法
+    {
+        data.noKeyRoom.push(data.pickedRoom[0]);
+        let temp = roomNow;
+        data.pickedRoom.splice(searchOrder(data.pickedRoom , temp) , 1);
+        data.pickedRoom[0] = temp;
+    }
+}
+var pickingKey = function(player , room , data) {               //拾取钥匙
+    keyTimer = keyAnimate();
+    function keyAnimate(){
+        var keytimer = setInterval(function(){
+            setTimeout(function() {
+                room.key.style.background = "url(img/key-animate-1.png)"
+            }, 100);
+            setTimeout(function() {
+                room.key.style.background = "url(img/key-animate-2.png)"
+            }, 200);
+            setTimeout(function() {
+                room.key.style.background = "url(img/key-animate-3.png)"
+            }, 300);
+            setTimeout(function() {
+                room.key.style.background = "url(img/key-animate-4.png)"
+            }, 400);
+            setTimeout(function() {
+                room.key.style.background = "url(img/key.png)"
+            }, 500);
+        } , 700)
+        return keytimer;
+    }
+    var findKey= setInterval(function() {
+        if(player.monster.offsetTop - room.key.offsetTop <= 20 && player.monster.offsetTop - room.key.offsetTop >=-20)
+        {
+            if(player.monster.offsetLeft - room.key.offsetLeft <= 20 && player.monster.offsetLeft - room.key.offsetLeft >=-20)
+            {
+                clearInterval(findKey);
+                clearInterval(keyTimer);
+                room.key.style.visibility = "hidden";
+                data.keyHolding ++;
+                keyGetAnimate();
+                console.log("钥匙获得！");
+                roomExchange(player , room , data);
+            }
+        }
+    }, 200);
+    function keyGetAnimate(){
+
+    }
+}
+var unlock = function() {                                       //将钥匙置于起点
+    if(data.keyHolding >= 1)
+    {
+        data.deathCount += data.keyHolding * 10;     //解锁步数奖励
+        data.keyNeeded -= data.keyHolding;
+        data.keyHolding = 0;
+        setTimeout("if(data.keyNeeded == 0) gameLevelUp()" , 1000);
+    }
+}
+var gameOver = function(data) {                                 //失败判定
+    if(data.deathCount == -1)
+    {
+        alert("YOU DIED");
+        window.location.reload();
+    }
+}
+var gameLevelUp = function() {                                  //进入下一关
+    alert("进入下一关卡");
+    data.gameLevel ++;
+    data.roomSCount = 0;
+    document.getElementById("info-gameLevel").innerHTML = data.gameLevel;
+    deleteMap();
+    createRoom(gameplayer , data , room);                     //开始时创造新的房间
+    createMap(gameplayer , data);
+    reflashRoom(gameplayer , data , room);
+    if(data.gameLevel >= 7) {
+        gameWin(data);
+    }
+}
+var gameWin = function(data) {
+    deathCountRun(data , 0);
+    alert("YOU'VE WON~ Now, enjoy your time");
+}
+
+var gameplayer = new Player();                                  //初始化模块
+    gameplayer.monster = document.getElementById("monster");
+var data = new GameRelative()
+    data.deathCount = 30;
+    data.roomSCount = 0;
+    data.gameLevel = 1;
+    document.getElementById("info-gameLevel").innerHTML = data.gameLevel;
+var room = new Room()
+createRoom(gameplayer , data , room);                           //开始时创造房间
+createMap(gameplayer , data);
+deathCountRun(data , 1);
+reflashRoom(gameplayer , data , room);
+reflashTimer();
+window.onload = controlMove(gameplayer , room);                 //开始时运行控制行走模块
+    </script>
+</html>
+{% endraw %}
