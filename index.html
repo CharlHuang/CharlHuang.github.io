@@ -156,6 +156,141 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-About-Computer-Frontier" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/02/25/About-Computer-Frontier/">About Computer Frontier</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/02/25/About-Computer-Frontier/" class="archive-article-date">
+  	<time datetime="2020-02-25T11:39:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>机组老师学期开始得第一项任务，让我们多了解了解计算机前沿的发展，那些关于计算模式、关于软件硬件的架构、关于现有技术和未来的发展方向，之类的问题。</p>
+<blockquote>
+<ul>
+<li>简述：计算机体系结构（CA）与计算机组成与设计（COD）这两个领域的边界在哪里？ 举例说明。</li>
+<li>简述：在计算机软件体系中，为什么将OS及以上，都划入“虚拟机”</li>
+<li>简述：虚拟化、容器化的原理与区别</li>
+<li>收集：了解RISC-V，并在网上收集至少3种RISC-V CPU的开源实现代码(给出链接）</li>
+<li>综述：收集并摘要4条软件定义硬件及硬件实现软件的最新发展动态</li>
+<li>综述：结合Moore’s Law以及你对最前沿计算机软硬件发展的了解，给出你对未来的芯片、芯片架构、计算模式的预测。</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="1-COD与CA的区别与边界"><a href="#1-COD与CA的区别与边界" class="headerlink" title="1. COD与CA的区别与边界"></a>1. COD与CA的区别与边界</h2><p>CA指对程序员可见的系统属性，主要关系到软件层面的内容；而COD关注于计算机各个部分之间的相互连接，逻辑实现。<br>换句话说，CA所展示的是COD层面封装好的黑箱。</p>
+<p>举例子说明：</p>
+<p>以windows系统来说，CA关注于系统类型是哪一种？如何区分？以及有哪些特性？<br>而COD更注重于各类系统类型的实现、原理。</p>
+<hr>
+<h2 id="2-在计算机软件架构中，为什么OS及以上划入“虚拟机”？"><a href="#2-在计算机软件架构中，为什么OS及以上划入“虚拟机”？" class="headerlink" title="2. 在计算机软件架构中，为什么OS及以上划入“虚拟机”？"></a>2. 在计算机软件架构中，为什么OS及以上划入“虚拟机”？</h2><p>OS及以上的系统软件和应用软件，将用户和位于OS下层的硬件和软硬件分界层相分隔开。</p>
+<p>在应用层面上我们所熟知的“虚拟机”，如在VMware上运行Ubuntu，这一个Ubuntu虚拟机里面所涵盖的内容，包括了系统软件和基于该OS的应用软件。所以将OS及以上的层划入“虚拟机”这一概念中。</p>
+<hr>
+<h2 id="3-虚拟化、容器化的原理与区别"><a href="#3-虚拟化、容器化的原理与区别" class="headerlink" title="3. 虚拟化、容器化的原理与区别"></a>3. 虚拟化、容器化的原理与区别</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p><strong>虚拟化（Virtualization）</strong>：把硬件资源在软件层面上，通过软件对其进行弹性分配和整合。旨在应用软件层面建立一个单独的操作系统。</p>
+<p><strong>容器化（Containerization）</strong>：通过把应用程序的相关程序代码、库和环境配置文件打包起来，对软件进行封装。</p>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>虚拟化需要对硬件进行模拟，可以运行整套操作系统。</p>
+<p>容器化是将与应用程序相关的文件封装好，在程序应用的时候，调用本身的OS核心系统层来打造虚拟执行环境。</p>
+<p>容器化比虚拟化更<strong>轻量快速</strong>，但<strong>不具备</strong>虚拟化OS的<strong>普适性</strong>。</p>
+<hr>
+<h2 id="4-RISC-V"><a href="#4-RISC-V" class="headerlink" title="4. RISC-V"></a>4. RISC-V</h2><p>RISC-V内核的32位CPU<br>A 32-bit Microcontroller featuring a RISC-V core.<br><a href="https://github.com/onchipuis/mriscv" target="_blank" rel="noopener">https://github.com/onchipuis/mriscv</a></p>
+<p>RIsc-v Dynamic Execution CORE.<br><a href="https://github.com/ridecore/ridecore" target="_blank" rel="noopener">https://github.com/ridecore/ridecore</a></p>
+<p>针对FPGA优化的RV32微处理器<br><a href="http://fpga.org/grvi-phalanx/" target="_blank" rel="noopener">http://fpga.org/grvi-phalanx/</a></p>
+<hr>
+<h2 id="软件定义硬件与硬件实现软件"><a href="#软件定义硬件与硬件实现软件" class="headerlink" title="软件定义硬件与硬件实现软件"></a>软件定义硬件与硬件实现软件</h2><h3 id="FPGA（Field-Programmable-Gate-Array）"><a href="#FPGA（Field-Programmable-Gate-Array）" class="headerlink" title="FPGA（Field Programmable Gate Array）"></a>FPGA（Field Programmable Gate Array）</h3><blockquote>
+<p>通用处理器（CPU）的摩尔定律已入暮年，而机器学习和 Web 服务的规模却在指数级增长。</p>
+<p>人们使用定制硬件来加速常见的计算任务，然而日新月异的行业又要求这些定制的硬件可被重新编程来执行新类型的计算任务。</p>
+<p>FPGA 正是一种硬件可重构的体系结构。它的英文全称是Field Programmable Gate Array，中文名是现场可编程门阵列。</p>
+<p>FPGA常年来被用作专用芯片（ASIC）的小批量替代品，然而近年来在微软、百度等公司的数据中心大规模部署，以同时提供强大的计算能力和足够的灵活性。</p>
+</blockquote>
+<p>近年来关于FPGA的研究的一些动态</p>
+<blockquote>
+<ul>
+<li>Accelerating Apache Spark with FPGAs. 使用FPGA加速Apache Spark</li>
+<li>Heterogeneous Computing Utilizing FPGAs. 利用FPGAs实现异构计算 </li>
+<li>用FPGA来加速3D模型、视频渲染</li>
+</ul>
+</blockquote>
+<h3 id="软件定义雷达"><a href="#软件定义雷达" class="headerlink" title="软件定义雷达"></a>软件定义雷达</h3><p>这个是我们西电一位院士介绍过的一个项目</p>
+<blockquote>
+<p>雷达系统正在向着开放式体系架构发展,硬件可重组、软件可重构、功能多样化等趋势越来越明显,软件化雷达应运而生。软件化雷达中进行软硬件解耦、提供相应通信计算功能的关键技术是中间件技术,该技术能够充分发挥标准化硬件和软件灵活性的优势,克服并改进了雷达信号处理的算法验证、型号研发和升级维护等过程中存在的问题。</p>
+</blockquote>
+<h3 id="软件定义卫星"><a href="#软件定义卫星" class="headerlink" title="软件定义卫星"></a>软件定义卫星</h3><blockquote>
+<p>近些年，卫星小型化成为行业公认的显著趋势，而小型卫星的发射数量也呈迅猛增长的势头，尤其是微小卫星，数据显示已占到卫星发射总量的60%以上。技术上，微小卫星一方面朝高性价比、高功能密度方向发展，另外一方面往网络化、智能化方向发展。这为提高大众参与度提供了基础。 </p>
+</blockquote>
+<blockquote>
+<p>“ 卫星会变得像一部智能手机，其他都靠应用程序支撑，人们可以像在智能手机上一样启动和停止这些应用程序。”</p>
+</blockquote>
+<hr>
+<h2 id="5-预测"><a href="#5-预测" class="headerlink" title="5. 预测"></a>5. 预测</h2><p>根据所了解到的资料，随着传统CPU在摩尔定律上的碰壁，异构计算的崛起会使得未来的芯片更趋向于<strong>模块化</strong>、<strong>专门化</strong>发展。当一条路走不通的时候，就去另辟蹊径，这是十分简单的道理。就如这十年间GPU、FPGA等AI芯片的快速发展，弥补cpu的缺陷，各类芯片互相分工协作。互相协作也意味着需要软件来进行控制，因此<strong>软硬件结合</strong>也是计算机智能化发展的趋势所在。</p>
+<p>去年5G的正式面世或许会为计算带来重大的变革，<strong>云计算</strong>或许会成为一个主流的计算模式。也就是说，不需要将多个模块的芯片都部署在本地，而是使用云服务。</p>
+<p>另外，<strong>量子计算</strong>也在持续发展更新。</p>
+<blockquote>
+<p>2019年12月11日，Intel研究院宣布推出代号为“Horse Ridge”的首款低温控制芯片，实现了对多个量子位的控制，可加快全栈量子计算系统的开发步伐，堪称量子实用性道路上的一个重要里程碑。</p>
+</blockquote>
+<p>对于更远的将来，量子计算或将从根基上革新计算机体系。</p>
+<p align="right" style="font-family: Roboto, serif">CharlHuang</p>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">杂项探索</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/02/25/About-Computer-Frontier/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Cpp-SysSignIn-Note" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1013,83 +1148,10 @@
 
 
   
-    <article id="post-发一篇试试水" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/06/发一篇试试水/">发一篇试试水</a>
-    </h1>
-  
-
-        
-        
-<a href="/2019/04/06/发一篇试试水/" class="archive-article-date">
-  	<time datetime="2019-04-06T02:46:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>##随便写写<br>    按hexo官网和网上csdn的流程部署了半天无果<br>    终于在一个b站视频里找到了最清晰的部署流程方案，这里要感谢一下coresheep的视频。<br>    目前还在摸索更多的内容，像tags啊images插入啊，就连markdown的语法都不熟hhh。<br>    以后会插入更多的内容吧，不能浪费这么好的框架（嗯）。<br>    就先这样吧~~</p>
-<hr>
-<p>参考视频：<a href="https://www.bilibili.com/video/av44544186?from=search&amp;seid=16208257289270783109" target="_blank" rel="noopener">https://www.bilibili.com/video/av44544186?from=search&amp;seid=16208257289270783109</a> </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/06/发一篇试试水/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
@@ -1213,6 +1275,14 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">杂项探索</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">machine learning</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
@@ -1221,19 +1291,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">machine learning</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">javascript</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开发</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">杂项探索</a>
               </li>
             
             <div class="clearfix"></div>
