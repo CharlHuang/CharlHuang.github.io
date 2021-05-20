@@ -156,6 +156,299 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-recursion-explanation" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/03/recursion-explanation/">才算理解了递归。。。</a>
+    </h1>
+  
+
+        
+        
+<a href="/2019/05/03/recursion-explanation/" class="archive-article-date">
+  	<time datetime="2019-05-03T12:44:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近看一个用<code>JS实现排序二叉树（binaryTree）的创建和遍历</code>的mooc，看到Traverse的那一段想了半天没想明白。（以中序遍历为例）</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var inOrderTraversNode = function(<span class="keyword">node</span> <span class="title">,callback</span>)       //中序遍历排序（递归实现）</span><br><span class="line">            &#123;</span><br><span class="line">                if(<span class="keyword">node</span> <span class="title">!= null</span>)        ///<span class="keyword">node</span><span class="title">为节点信息，含left</span>，right和key三个成员</span><br><span class="line">                &#123;</span><br><span class="line">                    inOrderTraversNode(<span class="keyword">node</span>.<span class="title">left</span>, callback);        //<span class="tag">&lt;-  1</span></span><br><span class="line"><span class="tag">                    callback(node.key);     //打印该节点的值        //&lt;- 2</span></span><br><span class="line"><span class="tag">                    inOrderTraversNode(node.right,callback);        //&lt;-  3</span></span><br><span class="line"><span class="tag">                &#125;</span></span><br><span class="line"><span class="tag">            &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>为什么程序不是一直进入左节点到最后<code>node</code>变成<code>null</code>的时候直接整个跳出去，还会回到<code>callback(node.key)</code>函数中呢？</p>
+<p>视频的讲解人没有解释这一段，花了很长时间找了很多相关的二叉树遍历算法都没有解释这件事，又反复翻看了JS的函数上的用法、定义等内容。慢慢意识到这应该是一个十分基础的认知错误，但是还是一直没有找到答案。直到找了imooc官网原来的课的同学问的和我同样遇到的问题。</p>
+<p>底下留言一句“父级的步骤”点醒了我，</p>
+<p>其实在递归的执行过程中，每一次递归，该函数的每一个步骤都没有跳过，即在每一层中，自身调用只是函数中的一条语句，遵循程序流的规则。只是因为之前所遇到的递归大多直接用<code>return</code>进行自身调用，所以没有注意到这个性质。用图来说明就是下面这个。</p>
+<img src="/2019/05/03/recursion-explanation/recursion.jpg">
+
+<p>我们可以看到递归其实是层层叠加的，子级程序运行完毕后，会继续进行父级程序的后续运行。在二叉树遍历代码中，这一点被精巧地运用了起来，从根部开始，每个中间节点的数值在遍历完自身的左子树时打印出来，随后进行右子树的遍历。先序和后序的遍历规则也与之相似。</p>
+<h2 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h2><ul>
+<li>发现了一个还算不错的流程图Web软件：ProcessOn，用起来还算顺手，界面也不错。</li>
+<li>开了JavaScript的坑，这类面向对象的语言比起 C 来说确实在某方面方便得多，几乎任何东西都能当作对象、变量，让他们变得更加抽象化了。所以以以前的思维来写面向对象的语言真的会走不少弯路。。</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/03/recursion-explanation/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-visits-founction-adding" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/22/visits-founction-adding/">hexo博客访问计数功能添加＋所遇问题</a>
+    </h1>
+  
+
+        
+        
+<a href="/2019/04/22/visits-founction-adding/" class="archive-article-date">
+  	<time datetime="2019-04-22T06:17:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<ul>
+<li>基于yilia主题（<em>不同主题的文件略有不同</em>）</li>
+<li>采用不蒜子计数</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="代码嵌入"><a href="#代码嵌入" class="headerlink" title="代码嵌入"></a>代码嵌入</h2><hr>
+<h3 id="1、引入不蒜子站点访问功能"><a href="#1、引入不蒜子站点访问功能" class="headerlink" title="1、引入不蒜子站点访问功能"></a>1、引入不蒜子站点访问功能</h3><p>&emsp;&emsp;将下段代码植入<code>theme\yilia\layout\_partial\footer.ejs</code>中，添加在<code>footer标签</code>内。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;class=line-numbers&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">%</span> <span class="attr">if</span> (<span class="attr">theme.busuanzi</span> &amp;&amp; <span class="attr">theme.busuanzi.enable</span>)&#123; %&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 不蒜子统计 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_container_site_pv"</span>&gt;</span></span><br><span class="line">                访问次数 :<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_value_site_pv"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span>次</span><br><span class="line">        <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"post-meta-divider"</span>&gt;</span>|<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_container_site_uv"</span> <span class="attr">style</span>=<span class="string">'display:none'</span>&gt;</span></span><br><span class="line">                访问人数 : <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_value_site_uv"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span>人</span><br><span class="line">        <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">"//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>   <em>若想改变文字可以改代码中的中文</em></p>
+<hr>
+<h3 id="2、文章访问量功能添加"><a href="#2、文章访问量功能添加" class="headerlink" title="2、文章访问量功能添加"></a>2、文章访问量功能添加</h3><p>  &emsp;&emsp;在添加<code>theme\yilia\layout\_partial\post\date.ejs</code> <code>开头</code>添加下行</p>
+<figure class="highlight mojolicious"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">%</span></span></span><span class="perl"> <span class="keyword">if</span> (theme.busuanzi &amp;&amp; theme.busuanzi.enable &amp;&amp; !<span class="keyword">index</span>)&#123; </span><span class="xml"><span class="tag">%&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 不蒜子统计 --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_container_page_pv"</span> <span class="attr">style</span>=<span class="string">'display:none'</span> <span class="attr">class</span>=<span class="string">"&lt;%=</span></span></span><span class="perl"> class_name </span><span class="xml"><span class="tag"><span class="string">%&gt;"</span>&gt;</span></span></span><br><span class="line"><span class="xml">              <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"icon-smile icon"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 阅读数：<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_value_page_pv"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span>次</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">%</span></span></span><span class="perl"> &#125; </span><span class="xml"><span class="tag">%&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3、在配置中添加不蒜子"><a href="#3、在配置中添加不蒜子" class="headerlink" title="3、在配置中添加不蒜子"></a>3、在配置中添加不蒜子</h3><p> &emsp;&emsp;在添加<code>themes\yilia\_config.yml</code> <code>末尾</code>中添加下行</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 是否开启访问量统计功能(不蒜子)</span></span><br><span class="line"> <span class="attr">busuanzi:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="碰到的小问题"><a href="#碰到的小问题" class="headerlink" title="碰到的小问题"></a>碰到的小问题</h2><h3 id="乱码-■-■■■■■■"><a href="#乱码-■-■■■■■■" class="headerlink" title="乱码 ■$■■■■■■"></a>乱码 <code>■$■■■■■■</code></h3><div align="center">
+
+<p><img src="/2019/04/22/visits-founction-adding/visits-founction-adding%5Cerror-1.jpg" alt="error"></p>
+<p>在文章阅读量</p>
+<p><img src="/2019/04/22/visits-founction-adding/visits-founction-adding%5Cerror-2.jpg" alt="error"></p>
+<p>页脚访问量</p>
+</div>
+
+<p>&emsp;&emsp;因为之前在配置<code>_config.md</code>的时候也遇到过网页中文乱码的问题，对md文档直接重新编码为<code>UTF-8</code>就能解决问题。在这里试了一下，问题正常解决[^_^]</p>
+<div align="center">
+        <img src="/2019/04/22/visits-founction-adding/solution.png" width="60%" height="60%">
+</div>
+
+<div align="center">
+
+<p> 对两个文档都设置一遍</p>
+<img src="/2019/04/22/visits-founction-adding/result1.jpg" width="30%" height="30%">
+
+ <br>
+
+ <img src="/2019/04/22/visits-founction-adding/result2.jpg" width="30%" height="30%">
+
+<p> <em>result</em></p>
+</div>
+
+<h3 id="数字有问题"><a href="#数字有问题" class="headerlink" title="数字有问题"></a>数字有问题</h3><p>&emsp;&emsp;访问量数字有问题是因为我尝试的时候是<code>hexo s</code>本地部署服务器，数字会出现问题。deploy到github中应该就没问题了。</p>
+<hr>
+<p>PS</p>
+<ul>
+<li>最近<code>git bush</code>的<code>ctrl + c</code>突然无法取消node.js的本地服务器了。每次都要手动开任务管理器删掉进程才能进行再部署和bush的其他操作。。。</li>
+</ul>
+<hr>
+<blockquote>
+<p>参考：<a href="https://joeybling.github.io/2019/03/13/Hexo博客添加访问量统计/" target="_blank" rel="noopener">https://joeybling.github.io/2019/03/13/Hexo博客添加访问量统计/</a></p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">杂项探索</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/22/visits-founction-adding/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Brexit-the-uncivil-war" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/09/Brexit-the-uncivil-war/">Brexit : the uncivil war的一点感想</a>
+    </h1>
+  
+
+        
+        
+<a href="/2019/04/09/Brexit-the-uncivil-war/" class="archive-article-date">
+  	<time datetime="2019-04-09T13:46:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>看这部电影的契机是<del>秃头的Benedict Cumberbatch</del>是舍友提起的昨天英国推迟脱欧的消息，而且刚好看到睿思<em>（学校内网资源共享论坛）</em>上有，于是就抽时间看了。</p>
+<div align="center">![img error](Brexit-the-uncivil-war\poster.jpg "POSTER")
+首先这个电影名字Brexit这个单词挺有意思，意思是英国脱欧，British的br和exit连起来创了个新单词（*又如brlunch等文化衍生词语*）
+
+<p>这种侃政治的电影实际上是很劝退的，就像曾经高中我尝试去看纸牌屋，开始是看图书馆的一本书（在阅读课上偶然发现，而且之前就久仰大名），于是那一节课去翻开这本书，果不其然，我成功被大串大串的人名和错综复杂党派关系给劝退了。更何况根本就不清楚各个党派意味着什么，他们的思想有什么差异。后来又去看电视剧，给我的感觉也是一样的。所以说接触这类影视作品需要一定的背景知识储备。而这部呢，分的阵营很明确，脱欧派和留欧派，对于每个重要人物都会暂停并贴出他们立场的标签。这对我们这种英国政治萌新就很友好。</p>
+<p>一开始是一段倒叙剪辑回放，呈现出的是一个非常快速的电影节奏，我要每句话暂停一次才能把整句话看清楚并理解其中表达的意思。</p>
+<p>然后影片开始，出现的是两个脱欧派的人，在公投前七百多天于美术馆中密谋，然后去找男主当leader。当时给我一个疑惑就是：你们为什么要搞脱欧？脱欧对你们来说有什么好处？后来虽然有说他们是独立党派的人，渴望独立，自由。但是这种独立，自由给他们带来的结果是什么？会给英国带来实际上更丰厚的利益吗？会“make Britain great again”？在没搞懂他们的想法的时候，运动就展开了。。。</p>
+<p>这个疑惑到影片快结束时两派的领导人在酒馆见面的时候才算解开。没错，这就和标题the uncivil war对应的那样，是无理的，就是一场没有明确的理由的闹剧，老Dom费尽心思靠社交网络精确投放广告传递脱欧的信息进行煽动、拉票，拉满take back control的横幅，挖出并拉拢那些无所谓脱不脱欧的民众，散播留欧派在实行恐慌计划（称留欧派在夸大脱欧带来危害）的说法，将留欧派实行的策略（拿出权威专家对英国脱欧所带来的经济，社会分析）击溃，到最后成功在公投中获得胜利。男主对独立党的情绪煽动也未加以约束，更是对广告、宣传中的谎言不予理睬，只是为了胜利而胜利，让原本一件关乎国家前途社稷的大事，最后变成了民粹主义（概念可能用的不对）的闹剧。而这一切的一切的理由，男主在最后也只是在质问面前吐出的“总要有人do something来改变这种落后的政治现状”，从前面的各种情节都能看出，男主老Dom是不想要钱权的，而接受并领导这项运动，我认为，只是为了改变如今政客，人民愚钝的现状，以完全的自主take control，而实际上并不知道这会将英国引向何方。</p>
+<p>后来的议员枪击案，老Dom一脸凝重，就像酒馆中那谁（忘了）对他说的那样，“we can’t control,you can’t either.”事情开始超出dom的预想，相反他们都已经无法控制局面了，事后据了解原来支持领导脱欧的那群人都溜了，留下一坨苏州屎。在片开始不久时，dom就提到他们要搞的是一场变革，去汲取智慧、学习的人应该是毛主席、苏格拉底、拿破仑，他们都是思想、政治、社会的变革者、改造者、破坏者，和毛爷爷的文革相似。毛爷爷相信“大乱之后必有大治”，而dom我想也是秉持这种想法，认为需要有人来当这个wheel breaker，破坏掉原有的机制才能迎接新时代的来临，他利用了old wheel的漏洞：忽视，甚至乎蔑视互联网新技术对民众心理的影响（就像原来被莫名退位的独立党派委员会人士那样），给留欧派一记重拳，让自以为民众能理性对待脱欧的留欧派领袖接受各种谎言和愚蠢。至始至终响彻英国的take back control，take back control只是被生活压迫的群众的盲目呼喊，他们似乎并不关心脱欧是否会为他们带来工作岗位，实际利益，他们只是在寻求一个为各种不幸遭遇的背锅侠，到最后非理性成功take control。</p>
+<p>现实中最后英国人似乎也发现了他们被愚弄了，然而公投这种有法律效益的事情似乎已经不能再来第二次了。也是一定程度上反应这种制度的问题所在。</p>
+<p>后来发现这部片是美国的HBO和BBC联合制作的，而特朗普的<em>“make America great again”</em>和筑墨西哥墙，也是牵着非理性人们的鼻子走。影片最后提到片中的拉票软件系统和川普的竞选有一定联系，吼吼<em>py的气息</em>，所以HBO才会和BBC合作搞这部片吧。</p>
+<p>吃饭前后拿手机敲的，可能写的有点乱hhh</p>
+</div>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/09/Brexit-the-uncivil-war/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-发一篇试试水" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -247,7 +540,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 CharlHuang
+    		&copy; 2021 CharlHuang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -360,7 +653,7 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">杂项探索</a>
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -368,11 +661,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color5">security, OPE,</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
+                <a href="javascript:void(0)" class="js-tag color5">杂项探索</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -381,6 +678,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开发</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
             
             <div class="clearfix"></div>

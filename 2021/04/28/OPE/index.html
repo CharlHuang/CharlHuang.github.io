@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://charlhuang.github.io">
-  <title>Archives: 2019/9 | Charl&#39;s Blog</title>
+  <title>大数据存储安全和隐私-索引和可搜索加密 | Charl&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Hexo框架IT博客">
-<meta name="keywords" content="走一步再走一步">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Charl&#39;s Blog">
-<meta property="og:url" content="http://charlhuang.github.io/archives/2019/09/index.html">
+  <meta name="description" content="briefing出于数据安全和隐私的考虑，随着云端数据存储的发展，明文储存在云端的方式是早已被抛弃掉的。而服务端又需要通过操作密文，来满足客户的业务需求。 这里将介绍其中一项重要业务：数据检索，我所收集到的一些相关加密算法和思路。 相关术语：  可搜索加密（searchable encryption SE）：允许用户将数据以一种能够保证隐私的形式外包给第三方(公有云)，同时保证用户通过特定途径（检">
+<meta name="keywords" content="security, OPE,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据存储安全和隐私-索引和可搜索加密">
+<meta property="og:url" content="http://charlhuang.github.io/2021/04/28/OPE/index.html">
 <meta property="og:site_name" content="Charl&#39;s Blog">
-<meta property="og:description" content="Hexo框架IT博客">
+<meta property="og:description" content="briefing出于数据安全和隐私的考虑，随着云端数据存储的发展，明文储存在云端的方式是早已被抛弃掉的。而服务端又需要通过操作密文，来满足客户的业务需求。 这里将介绍其中一项重要业务：数据检索，我所收集到的一些相关加密算法和思路。 相关术语：  可搜索加密（searchable encryption SE）：允许用户将数据以一种能够保证隐私的形式外包给第三方(公有云)，同时保证用户通过特定途径（检">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://charlhuang.github.io/2021/04/28/OPE/OPE/1.jpg">
+<meta property="og:updated_time" content="2021-05-20T10:18:38.994Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Charl&#39;s Blog">
-<meta name="twitter:description" content="Hexo框架IT博客">
+<meta name="twitter:title" content="大数据存储安全和隐私-索引和可搜索加密">
+<meta name="twitter:description" content="briefing出于数据安全和隐私的考虑，随着云端数据存储的发展，明文储存在云端的方式是早已被抛弃掉的。而服务端又需要通过操作密文，来满足客户的业务需求。 这里将介绍其中一项重要业务：数据检索，我所收集到的一些相关加密算法和思路。 相关术语：  可搜索加密（searchable encryption SE）：允许用户将数据以一种能够保证隐私的形式外包给第三方(公有云)，同时保证用户通过特定途径（检">
+<meta name="twitter:image" content="http://charlhuang.github.io/2021/04/28/OPE/OPE/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Charl&#39;s Blog" type="application/atom+xml">
   
@@ -154,139 +157,227 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-OPE" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      大数据存储安全和隐私-索引和可搜索加密
+    </h1>
+  
+
+        
+        
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读量：<span id="busuanzi_value_page_pv"></span>
+        </span>
+
+<a href="/2021/04/28/OPE/" class="archive-article-date">
+  	<time datetime="2021-04-28T03:48:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-28</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="briefing"><a href="#briefing" class="headerlink" title="briefing"></a>briefing</h2><p>出于数据安全和隐私的考虑，随着云端数据存储的发展，明文储存在云端的方式是早已被抛弃掉的。而服务端又需要通过操作密文，来满足客户的业务需求。</p>
+<p>这里将介绍其中一项重要业务：<strong>数据检索</strong>，我所收集到的一些相关加密算法和思路。</p>
+<p><strong>相关术语：</strong></p>
+<blockquote>
+<p><strong>可搜索加密（searchable encryption SE）</strong>：<br>允许用户将数据以一种能够保证隐私的形式外包给第三方(公有云)，同时保证用户通过特定途径（检索令牌）能够在外包的数据上进行检索。</p>
+</blockquote>
+<blockquote>
+<p><strong>索引（Indexing）</strong>：</p>
+<ul>
+<li>提高检索效率的工具，数据结构，为数据查找提供规则，</li>
+<li>典型：树形结构<ul>
+<li>树形结构索引核心在于数据的偏序关系</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>保序加密（Order-Preserving Encryption）</strong>：<br>简单地说就是，明文之间的数据偏序关系（如：大小关系），不随加密而改变。</p>
+</blockquote>
+<blockquote>
+<p><strong>IND-OCPA安全(Indistinguishability under ordered chosen plaintext attack)</strong>:<br> <a href="https://blog.csdn.net/qq_26816591/article/details/83755937" target="_blank" rel="noopener">相关解释</a><br>可靠的加密方案需要满足的最基本安全性质<br>满足IND-CPA安全，必要条件是，要求加密过程是“去序”的，但保序算法从根源上就不满足。</p>
+</blockquote>
+<p><em>PS：任何保序加密方案理论上均不能达到 IND-CPA安全。</em><br>    但可以通过泄露更多的信息，来降低偏序带来的风险。新的信息的加入可以带来混淆，降低了偏序对密文的直接影响。（不太清楚更专业的表述是什么）</p>
+<h2 id="保序加密方案介绍"><a href="#保序加密方案介绍" class="headerlink" title="保序加密方案介绍"></a>保序加密方案介绍</h2><ol>
+<li><p>简单的线性变换（安全性差<br> 密钥: 𝑎, 𝑏<br> 加密函数:𝐸 𝑣 = 𝑎𝑣 + 𝑏 + 𝑛𝑜𝑖𝑠𝑒，其中𝑛𝑜𝑖𝑠𝑒为噪声</p>
+</li>
+<li><p>平衡二叉树建立索引mOPE</p>
+</li>
+</ol>
+<ul>
+<li>client维护密文-明文表 // server维护密文-索引表和一颗密文的平衡二叉树</li>
+<li>通过client-server交互，client解密，让server得到密文间的大小关系。</li>
+</ul>
+<ol start="3">
+<li>可比较加密CE ，有陷门的顺序可见加密</li>
+</ol>
+<ul>
+<li></li>
+</ul>
+<ol start="4">
+<li>揭序加密ORE</li>
+</ol>
+<ul>
+<li>聪明的方法</li>
+<li>从数据的最高位进行伪随机数映射，在i位前的<br><img src="/2021/04/28/OPE/./OPE/1.jpg" alt="err"></li>
+</ul>
+<h2 id="多维数据安全检索"><a href="#多维数据安全检索" class="headerlink" title="多维数据安全检索"></a>多维数据安全检索</h2><h3 id="最近邻检索"><a href="#最近邻检索" class="headerlink" title="最近邻检索"></a>最近邻检索</h3><ul>
+<li>最近邻 NN（k=1）</li>
+<li>k近邻 kNN（k个最近点）</li>
+<li>近似最近邻 ANN：牺牲精度</li>
+</ul>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><p>GIS系统</p>
+<ul>
+<li>GIS卫星不断广播位置信息</li>
+<li>用户端计算自己所处位置，向服务器发送近邻检索请求。</li>
+<li>返回近邻点</li>
+</ul>
+<blockquote>
+<p>泰森多边形<br>多边形的区域划分求解近邻问题（NP-C）难以求解</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/09/13/neural-network/" class="archive-article-date">
-  	<time datetime="2019-09-13T02:51:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/13/neural-network/">神经网络概念及其假设函数</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">machine learning</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">security, OPE,</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://charlhuang.github.io/2021/04/28/OPE/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/09/13/Costfunction-Normalization/" class="archive-article-date">
-  	<time datetime="2019-09-13T02:41:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-13</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/23/save-your-life/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">节省生命的linux快捷功能指南</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/13/Costfunction-Normalization/">代价函数正则化</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">machine learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/09/10/mechine-learning-note-1/" class="archive-article-date">
-  	<time datetime="2019-09-10T15:29:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/10/mechine-learning-note-1/">关于Gredient descent算法笔记</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">machine learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://jjeejj.github.io/js/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "http://charlhuang.github.io/2021/04/28/OPE/",
+  owner: 'CharlHuang',
+  repo: 'CharlHuang.github.io',
+  oauth: {
+    client_id: '9dc6a630321c567d14bf',
+    client_secret: '56c017c534bf04e03683f3788aac59814b77cbd5',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+  
 
 
           </div>
@@ -318,8 +409,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

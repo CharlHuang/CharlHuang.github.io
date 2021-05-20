@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://charlhuang.github.io">
-  <title>Archives: 2019/9 | Charl&#39;s Blog</title>
+  <title>节省生命的linux快捷功能指南 | Charl&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Hexo框架IT博客">
-<meta name="keywords" content="走一步再走一步">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Charl&#39;s Blog">
-<meta property="og:url" content="http://charlhuang.github.io/archives/2019/09/index.html">
+  <meta name="description" content="命令编辑类Ctrl + a：光标回到命令行首。      （a：ahead）Ctrl + e：光标回到命令行尾。      （e：end）Ctrl + b：光标向行首移动一个字符。 （b：backwards）Ctrl + f：光标向行尾移动一个字符。 （f：forwards） Ctrl + w: 删除光标处到行首的字符。Ctrl + k：删除光标处到行尾的字符。Ctrl + u：删除整个命令行文本">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="节省生命的linux快捷功能指南">
+<meta property="og:url" content="http://charlhuang.github.io/2021/04/23/save-your-life/index.html">
 <meta property="og:site_name" content="Charl&#39;s Blog">
-<meta property="og:description" content="Hexo框架IT博客">
+<meta property="og:description" content="命令编辑类Ctrl + a：光标回到命令行首。      （a：ahead）Ctrl + e：光标回到命令行尾。      （e：end）Ctrl + b：光标向行首移动一个字符。 （b：backwards）Ctrl + f：光标向行尾移动一个字符。 （f：forwards） Ctrl + w: 删除光标处到行首的字符。Ctrl + k：删除光标处到行尾的字符。Ctrl + u：删除整个命令行文本">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-23T13:08:32.193Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Charl&#39;s Blog">
-<meta name="twitter:description" content="Hexo框架IT博客">
+<meta name="twitter:title" content="节省生命的linux快捷功能指南">
+<meta name="twitter:description" content="命令编辑类Ctrl + a：光标回到命令行首。      （a：ahead）Ctrl + e：光标回到命令行尾。      （e：end）Ctrl + b：光标向行首移动一个字符。 （b：backwards）Ctrl + f：光标向行尾移动一个字符。 （f：forwards） Ctrl + w: 删除光标处到行首的字符。Ctrl + k：删除光标处到行尾的字符。Ctrl + u：删除整个命令行文本">
   
     <link rel="alternative" href="/atom.xml" title="Charl&#39;s Blog" type="application/atom+xml">
   
@@ -154,139 +155,189 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-save-your-life" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      节省生命的linux快捷功能指南
+    </h1>
+  
+
+        
+        
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读量：<span id="busuanzi_value_page_pv"></span>
+        </span>
+
+<a href="/2021/04/23/save-your-life/" class="archive-article-date">
+  	<time datetime="2021-04-23T12:37:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-23</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="命令编辑类"><a href="#命令编辑类" class="headerlink" title="命令编辑类"></a>命令编辑类</h3><p><strong><code>Ctrl + a</code>：光标回到命令行首。      （a：ahead）<br><code>Ctrl + e</code>：光标回到命令行尾。      （e：end）<br><code>Ctrl + b</code>：光标向行首移动一个字符。 （b：backwards）<br><code>Ctrl + f</code>：光标向行尾移动一个字符。 （f：forwards）</strong></p>
+<p><code>Ctrl + w</code>: 删除光标处到行首的字符。<br><code>Ctrl + k</code>：删除光标处到行尾的字符。<br><code>Ctrl + u</code>：删除整个命令行文本字符。<br><code>Ctrl + h</code>：向行首删除一个字符。<br><code>Ctrl + d</code>：向行尾删除一个字符。<br><strong><code>Ctrl + y</code>:：粘贴Ctrl+u，Ctrl+k，Ctrl+w删除的文本。</strong></p>
+<p><code>Ctrl + p</code>: 上一个使用的历史命令。 （p：previous）<br><code>Ctrl + n</code>： 下一个使用的历史命令。（n：next ）<br><code>Ctrl + r</code>：快速检索历史命令。（r：retrieve）。<br><code>Ctrl + t</code>： 交换光标所在字符和其前的字符。</p>
+<p><strong><code>ALT + F</code>： 跳向下一个空格<br><code>ALT + B</code>： 跳回上一个空格<br><code>Alt + .</code>：使用上一条命令的最后一个参数。</strong></p>
+<p><code>Ctrl + i</code>：相当于Tab键。<br><code>Ctrl + o</code>：相当于Ctrl+m.<br><code>Ctrl + m</code>：相当Enter键。</p>
+<h3 id="控制类"><a href="#控制类" class="headerlink" title="控制类"></a>控制类</h3><p><code>Ctrl+s</code>：使终端发呆，静止，可以使快速输出的终端屏幕停下来。<br><code>Ctrl+q</code>：退出Ctrl+s引起的发呆。<br><strong><code>Ctrl+z</code>：使正在运行在终端的任务，运行于后台。</strong><br>👆     配合命令：jobs查看被中止的进程；bg/fg [id] 唤醒进程到前/后台运行</p>
+<p><strong><code>Ctrl+c</code>：中断终端中正在执行的任务。</strong><br><code>Ctrl+d</code>: 在空命令行的情况下可以退出终端。<br><code>Ctrl+[</code> ：相当于Esc键。</p>
+<p><code>Esc</code>键：连续按3次显示所有的支持的终端命令。<br><strong><code>Tab</code>键：命令、文件名等自动补全功能。</strong></p>
+<p><strong><code>ALT + ←/→</code>：多用户终端窗口切换，同 <code>alt + F1~F6</code>总共能开6个台</strong><br>👆 mama再也不担心挂后台，还看不见日志了。</p>
+<hr>
+<blockquote>
+<p>废话留在最后<br>偶尔发现的 <code>alt+←</code> 可以开新终端，所以稍微汇总了一下，全是不可能全的。</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/09/13/neural-network/" class="archive-article-date">
-  	<time datetime="2019-09-13T02:51:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/13/neural-network/">神经网络概念及其假设函数</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">machine learning</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://charlhuang.github.io/2021/04/23/save-your-life/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/09/13/Costfunction-Normalization/" class="archive-article-date">
-  	<time datetime="2019-09-13T02:41:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-13</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2021/04/28/OPE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          大数据存储安全和隐私-索引和可搜索加密
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/11/17/Genetic-Algorithm/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Genetic-Algorithm</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/13/Costfunction-Normalization/">代价函数正则化</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">machine learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/09/10/mechine-learning-note-1/" class="archive-article-date">
-  	<time datetime="2019-09-10T15:29:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/10/mechine-learning-note-1/">关于Gredient descent算法笔记</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">machine learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://jjeejj.github.io/js/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "http://charlhuang.github.io/2021/04/23/save-your-life/",
+  owner: 'CharlHuang',
+  repo: 'CharlHuang.github.io',
+  oauth: {
+    client_id: '9dc6a630321c567d14bf',
+    client_secret: '56c017c534bf04e03683f3788aac59814b77cbd5',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+  
 
 
           </div>
@@ -318,8 +369,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
